@@ -20,4 +20,28 @@ body {
     margin: 10px 0;
     padding: 10px;
   }
+  .coin-flip-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .amount-input {
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    width: 200px;
+  }
+  
+  .selection-button,
+  .flip-button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .result {
+    margin-top: 20px;
+    font-size: 18px;
+  }
   

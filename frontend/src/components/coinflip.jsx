@@ -1,40 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const CoinFlip = ({ signer }) => {
-  const [amount, setAmount] = useState(0);
-  const [side, setSide] = useState("heads");
-  const [result, setResult] = useState("");
+const CoinFlip = () => {
+  const [selectedSide, setSelectedSide] = useState(""); // "heads" or "tails"
+  const [flipResult, setFlipResult] = useState("");
+  const [isWinner, setIsWinner] = useState(null); // true or false based on the result
+  const [amount, setAmount] = useState(0); // Amount entered by the user
 
-  const flipCoin = async () => {
-    const outcome = Math.random() < 0.5 ? "heads" : "tails";
-    setResult(outcome);
+  const handleSelection = (side) => {
+    setSelectedSide(side);
+  };
 
-    // Logic for handling token transfer would go here
-    // For simplicity, we are just showing the result
-    if (outcome === side) {
-      alert(`You win! Outcome: ${outcome}`);
-      // Logic to double the tokens
+  const flipCoin = () => {
+    if (!selectedSide) {
+      alert("Please select Heads or Tails!");
+      return;
+    }
+
+    // Randomly determine the result of the coin flip
+    const coinFlipResult = Math.random() < 0.5 ? "heads" : "tails";
+    setFlipResult(coinFlipResult);
+
+    // Determine if the user won or lost
+    if (coinFlipResult === selectedSide) {
+      setIsWinner(true);
     } else {
-      alert(`You lose! Outcome: ${outcome}`);
-      // Logic to lose the tokens
+      setIsWinner(false);
     }
   };
 
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
+  };
+
   return (
-    <div>
-      <h2>Coin Flip Game</h2>
-      <input 
-        type="number" 
-        value={amount} 
-        onChange={(e) => setAmount(e.target.value)} 
-        placeholder="Amount" 
-      />
-      <select onChange={(e) => setSide(e.target.value)}>
-        <option value="heads">Heads</option>
-        <option value="tails">Tails</option>
-      </select>
-      <button onClick={flipCoin}>Flip Coin</button>
-      {result && <p>Outcome: {result}</p>}
+    <div className="coin-flip-container">
+      <h1>Coin Flip Game</h1>
+
+      <div>
+        <input
+          type="number"
+          value={amount}
+          onChange={handleAmountChange}
+          placeholder="Enter amount to risk"
+          className="amount-input"
+        />
+      </div>
+
+      <div>
+        <button onClick={() => handleSelection("heads")} style={{backgroundColor: selectedSide=="heads" && "black"}} className="selection-button">
+          Heads
+        </button>
+        <button onClick={() => handleSelection("tails")} style={{backgroundColor: selectedSide=="tails" && "black"}} className="selection-button">
+          Tails
+        </button>
+      </div>
+
+      <button onClick={flipCoin} className="flip-button">
+        Flip Coin
+      </button>
+
+      {flipResult && (
+        <div className="result">
+          <h2>Coin Result: {flipResult}</h2>
+          {isWinner !== null && (
+            <h3>
+              {isWinner ? `You Win! Amount Won: ${amount * 2}` : "You Lose!"}
+            </h3>
+          )}
+        </div>
+      )}
     </div>
   );
 };

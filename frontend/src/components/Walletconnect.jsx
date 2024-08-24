@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserProvider } from "ethers";
 
-const WalletConnector = () => {
+const WalletConnector = ({setSigner}) => {
   const [address, setAddress] = useState("");
 
   const connectWallet = async () => {
@@ -19,6 +19,7 @@ const WalletConnector = () => {
         // Check if signer is valid and retrieve the address
         if (signer) {
           const userAddress = await signer.getAddress();
+          setSigner(signer);
           setAddress(userAddress);
           console.log("Connected Address: ", userAddress);
         } else {
